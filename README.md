@@ -185,8 +185,8 @@ Example:
         apiClient.setAccessToken("put your token here");
         try {
             CampaignRequestV2 request = new CampaignRequestV2();
+        
             // fill in the experiment object
-
             CampaignResponseDto result = apiInstance.createNewUsingPOST(request);
         } catch (ApiException e) {
             e.printStackTrace();
@@ -341,8 +341,27 @@ Example:
 ### Creating Facebook Campaign
 Provided example for creating Facebook Campaign 
 package: glg/example/facebook
-## Google Campaign Creation
+Create and Manage Facebook Ads Campaigns:
+This module handles the full flow of creating Facebook Ads campaign by authenticating with the GLG system, preparing message content, and submitting campaign requests.
 
+**URL**: `/api/campaign/new`
+```java
+ public static void main(String[] args){
+        try{
+        AuthExample.TokenPair authenticate=AuthExample.authenticate("api-demo@clash.io","api-demo");
+        CampaignExample campaignExample=new CampaignExample();
+        CampaignResponseDto facebookCampaign=campaignExample.createFacebookCampaign(authenticate.getAccessToken());
+        System.out.println("Campaign successfully created:"+facebookCampaign);
+        }catch(AuthExample.AuthenticationException e){
+        throw new RuntimeException(e);
+        }catch(ApiException e){
+        throw new RuntimeException(e);
+        }
+        }
+        
+```
+
+## Google Campaign Creation
 Create and Manage Google Ads Campaigns:
 This module handles the full flow of creating Google Ads campaigns (Search, Display, and YouTube) by authenticating with the GLG system, preparing message content, and submitting campaign requests.
 
@@ -564,4 +583,34 @@ Example:
         } catch (ApiException e) {
             e.printStackTrace();
         }
+``` 
+
+### Uploading image 
+
+Uploading image
+**URL**: `/api/rich-content/upload`
+
+```java
+public Long uploadImage(String accessToken, String filePath, String aspectRatio, String channel){
+try {
+RichMediaControllerApi apiInstance = new RichMediaControllerApi();
+ApiClient apiClient = apiInstance.getApiClient();
+apiClient.setAccessToken(accessToken);
+
+            File imageFile = new File(filePath);
+            if (!imageFile.exists() || !imageFile.isFile()) {
+                throw new IllegalArgumentException("Invalid file path: " + filePath);
+            }
+
+
+            return apiInstance.uploadFileUsingPOST(imageFile, aspectRatio, channel);
+
+        } catch (ApiException e) {
+            if (e.getCode() == 401) {
+                throw new RuntimeException("Authentication failed - invalid access token");
+            } else {
+                throw new RuntimeException("Failed to upload image: " + e.getMessage(), e);
+            }
+        }
+    }
 ``` 
