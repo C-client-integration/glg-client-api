@@ -344,6 +344,16 @@ package: glg/example/facebook
 Create and Manage Facebook Ads Campaigns:
 This module handles the full flow of creating Facebook Ads campaign by authenticating with the GLG system, preparing message content, and submitting campaign requests.
 
+UploadImageExample - uploads image which will be used in MessageExample as promo_visual
+MessageExample - creates message for Facebook
+CampaignExample - provided how to create Facebook Campaign
+FacebookFlowExampleMain - runs UploadImageExample, MessageExample, CampaignExample shows full flow of creation Facebook Campaign
+
+Example classes
+[MessageExample class](src/main/java/glg/example/facebook/MessageExample.java)
+[CampaignExample class](src/main/java/glg/example/facebook/CampaignExample.java)
+[FacebookFlowExampleMain class](src/main/java/glg/example/facebook/GoogleFlowExampleMain.java)
+
 **URL**: `/api/campaign/new`
 ```java
  public static void main(String[] args){
@@ -358,6 +368,7 @@ This module handles the full flow of creating Facebook Ads campaign by authentic
         throw new RuntimeException(e);
         }
         }
+
         
 ```
 
@@ -392,17 +403,18 @@ public static void main(String[] args) {
         throw new RuntimeException("An error occurred while creating campaigns", e);
     }
 }
-
 ```
+
+
 ### Campaign Creation Functions
 
 #### createGoogleSearchCampaign(String token)
 Creates a Google Search campaign by:
 
 UploadImageExample - uploads image which will be used in MessageExample as promo_visual
-MessageExample - creates message for Facebook
-CampaignExample - provided how to create Facebook Campaign 
-FacebookFlowExampleMain - runs UploadImageExample, MessageExample, CampaignExample shows full flow of creation Facebook Campaign
+MessageExample - creates message for Google
+CampaignExample - provided how to create Google Campaign 
+GoogleFlowExampleMain - runs UploadImageExample, MessageExample, CampaignExample shows full flow of creation Facebook Campaign
     Setting the access token.
 
     Creating a rich initial message for search.
@@ -448,6 +460,27 @@ Example classes
 [CampaignExample class](src/main/java/glg/example/google/CampaignExample.java)
 [GoogleFlowExampleMain class](src/main/java/glg/example/google/GoogleFlowExampleMain.java)
 
+### Creating Brevo Campaign
+Provided example for creating Brevo Campaign
+package: glg/example/brevo
+Create and Manage Brevo Campaign:
+This module handles the full flow of creating Brevo campaign by authenticating with the GLG system, preparing message content, and submitting campaign requests.
+
+**URL**: `/api/campaign/new`
+```java
+public static void main(String[] args) {
+        try {
+        AuthExample.TokenPair authenticate = AuthExample.authenticate("use_provided_credentials", "use_provided_credentials");
+        CampaignExample campaignExample = new CampaignExample();
+        CampaignResponseDto brevoCampaign = campaignExample.createBrevoCampaign(authenticate.getAccessToken());
+
+        System.out.println("Campaign successfully created:" + brevoCampaign);
+        } catch (AuthExample.AuthenticationException | ApiException e) {
+        throw new RuntimeException(e);
+        }
+        }
+        
+```
 
 # Reporting API 
 
@@ -614,3 +647,4 @@ apiClient.setAccessToken(accessToken);
         }
     }
 ``` 
+
